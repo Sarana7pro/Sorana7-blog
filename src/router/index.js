@@ -1,0 +1,40 @@
+import Vue from 'vue'
+import VueRouter from 'vue-router'
+
+import AppHome from '@/views/AppHome.vue'
+import AppViews from '@/views/AppViews.vue'
+import AppPublishArticle from '@/views/AppPublishArticle.vue'
+import APPContact from '@/views/APPContact.vue'
+
+Vue.use(VueRouter)
+
+const routes = [
+  {
+    path: '/',
+    name: 'AppHome',
+    component: AppHome
+  },
+  {
+    path: '/AppViews',
+    name: 'AppViews',
+    component: AppViews
+  },
+  {
+    path: '/AppPublishArticle',
+    name: 'AppPublishArticle',
+    component: AppPublishArticle
+  },
+  {
+    path: '/contact',
+    name: 'APPContact',
+    component: APPContact
+  }
+]
+
+const router = new VueRouter({
+  mode: 'history',
+  base: process.env.BASE_URL,
+  routes
+})
+
+export default router
