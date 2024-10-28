@@ -5,7 +5,7 @@
                 <img src="@/assets/icon/mea2.jpg" class="logo-img">
             </router-link>
             <router-link to="/" class="custom-link">
-                <h1>大咩の博客</h1>
+                <h1>月下の博客</h1>
             </router-link>
         </div>
         <ul class="nav-links">
@@ -62,6 +62,7 @@ export default {
 .nav-links a {
     color: #fff;
     text-decoration: none;
+    cursor: url('@/assets/cur/busy.gif'), auto;
 }
 
 .nav-links a:hover {
@@ -78,5 +79,6 @@ export default {
     height: 40px;
     border-radius: 50%;
     margin-right: 10px;
+    cursor: url('@/assets/cur/busy.gif'), auto;
 }
 </style>

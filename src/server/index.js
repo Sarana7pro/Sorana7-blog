@@ -116,24 +116,23 @@ app.post('/addComment', (req, res) => {
 
 // 更新点赞数的接口
 app.post('/updateLikes/:id', (req, res) => {
-  const articleId = req.params.id; // 从 URL 获取文章 ID
-  const { likes } = req.body; // 从请求体获取新的点赞数
+  const articleId = req.params.id // 从 URL 获取文章 ID
+  const { likes } = req.body // 从请求体获取新的点赞数
 
   // 更新数据库中对应文章的点赞数
   pool.query('UPDATE posts SET likes = ? WHERE id = ?', [likes, articleId], (err, results) => {
     if (err) {
-      console.error('更新点赞数失败:', err);
-      return res.status(500).json({ error: '更新点赞数失败' });
+      console.error('更新点赞数失败:', err)
+      return res.status(500).json({ error: '更新点赞数失败' })
     }
 
     if (results.affectedRows > 0) {
-      res.json({ message: '点赞数更新成功', likes }); // 返回成功消息
+      res.json({ message: '点赞数更新成功', likes }) // 返回成功消息
     } else {
-      res.status(404).json({ message: '文章未找到' }); // 找不到对应文章
+      res.status(404).json({ message: '文章未找到' }) // 找不到对应文章
     }
-  });
-});
-
+  })
+})
 
 // 启动服务器
 app.listen(3000, () => {

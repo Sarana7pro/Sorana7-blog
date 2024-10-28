@@ -53,6 +53,7 @@ export default {
   .footer .social-links {
     list-style: none;
     padding: 0;
+
   }
 
   .footer .social-links li {
@@ -63,6 +64,7 @@ export default {
   .footer .social-links a {
     color: white;
     text-decoration: none;
+    cursor: url('@/assets/cur/busy.gif'), auto;
   }
 
   .footer .social-links a:hover {

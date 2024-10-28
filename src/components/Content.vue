@@ -1,68 +1,76 @@
 <template>
-    <div class="main-content">
-      <h1>主要内容</h1>
-      <div class="cards">
-        <a v-for="post in paginatedPosts" :key="post.id" :href="'/AppViews?id=' + post.id" class="card-link">
-          <div class="card">
-            <img :src="post.image" :alt="post.title" />
-            <div class="card-content">
-              <h3>{{ post.title }}</h3>
-              <h4>{{ post.summary }}</h4>
-              <div class="meta-info">
-                <span>{{ new Date(post.date).toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' }) }}</span>
-                <span>{{ post.likes }} 赞</span>
-              </div>
+  <div class="main-content">
+    <h1>主要内容</h1>
+    <div class="cards">
+      <a v-for="post in paginatedPosts" :key="post.id" :href="'/AppViews?id=' + post.id" class="card-link">
+        <div class="card">
+          <img :src="post.image" :alt="post.title" />
+          <div class="card-content">
+            <h3>{{ post.title }}</h3>
+            <h4>{{ post.summary }}</h4>
+            <div class="meta-info">
+              <span>{{ new Date(post.date).toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' }) }}</span>
+              <span>{{ post.likes }} 赞</span>
             </div>
           </div>
-        </a>
-      </div>
-      <!-- 分页组件 -->
-      <PostPagination
-        :totalItems="posts.length"
-        :itemsPerPage="itemsPerPage"
-        :currentPage="currentPage"
-        @page-changed="handlePageChange"
-      />
+        </div>
+      </a>
     </div>
-  </template>
+    <PostPagination
+      :totalItems="filteredPosts.length"
+      :itemsPerPage="itemsPerPage"
+      :currentPage="currentPage"
+      @page-changed="handlePageChange"
+    />
+  </div>
+</template>
 
 <script>
-import PostPagination from '../components/PostPagination.vue' // 引入分页组件
+import PostPagination from '../components/PostPagination.vue'
 
 export default {
-  name: 'MainContent',
+  name: 'ContentComponent',
   components: {
     PostPagination
   },
+  props: {
+    searchQuery: { // 接收搜索查询
+      type: String,
+      default: ''
+    }
+  },
   data () {
     return {
-      posts: [], // 初始为空数组
-      currentPage: 1, // 当前页
-      itemsPerPage: 5 // 每页显示文章数
+      posts: [],
+      currentPage: 1,
+      itemsPerPage: 5
     }
   },
   computed: {
-    // 根据当前页和每页显示的数量，计算要显示的文章
+    filteredPosts () {
+      if (!this.searchQuery) return this.posts
+      return this.posts.filter(post =>
+        post.title.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
+        post.summary.toLowerCase().includes(this.searchQuery.toLowerCase())
+      )
+    },
     paginatedPosts () {
       const start = (this.currentPage - 1) * this.itemsPerPage
       const end = start + this.itemsPerPage
-      return this.posts.slice(start, end)
+      return this.filteredPosts.slice(start, end)
     }
   },
   mounted () {
-    // 获取文章数据并按 id 排序
     fetch('http://localhost:3000/getPosts')
       .then(response => response.json())
       .then(data => {
-        // 对文章数据按 id 进行升序排序（从小到大）
-        this.posts = data.sort((a, b) => b.id - a.id) // 如果要降序排序，改为 b.id - a.id
+        this.posts = data.sort((a, b) => b.id - a.id)
       })
       .catch(err => {
         console.error('获取数据失败:', err)
       })
   },
   methods: {
-    // 处理分页变化
     handlePageChange (page) {
       this.currentPage = page
     }
@@ -109,6 +117,7 @@ export default {
   .card:hover {
       transform: translateY(-5px);
       box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+      cursor: url('@/assets/cur/busy.gif'), auto;
   }
 
   .card img {

@@ -9,5 +9,12 @@ module.exports = defineConfig({
       maskIcon: 'favicon.ico',
       msTileImage: 'favicon.ico'
     }
+  },
+  // 自定义网页标题
+  chainWebpack: (config) => {
+    config.plugin('html').tap((args) => {
+      args[0].title = '月下的博客'
+      return args
+    })
   }
 })

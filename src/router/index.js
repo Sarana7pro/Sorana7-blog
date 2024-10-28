@@ -5,6 +5,7 @@ import AppHome from '@/views/AppHome.vue'
 import AppViews from '@/views/AppViews.vue'
 import AppPublishArticle from '@/views/AppPublishArticle.vue'
 import APPContact from '@/views/APPContact.vue'
+import AppAbout from '@/views/AppAbout.vue'
 
 Vue.use(VueRouter)
 
@@ -28,6 +29,11 @@ const routes = [
     path: '/contact',
     name: 'APPContact',
     component: APPContact
+  },
+  {
+    path: '/about',
+    name: 'AppAbout',
+    component: AppAbout
   }
 ]
 

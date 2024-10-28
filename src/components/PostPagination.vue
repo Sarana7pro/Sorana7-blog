@@ -56,6 +56,7 @@ export default {
 
   .pagination button {
     padding: 5px 10px;
+    cursor: url('@/assets/cur/busy.gif'), auto;
   }
 
   .pagination span {

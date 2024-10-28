@@ -2,9 +2,9 @@
     <div id="AppHome" class="background">
       <HdView />
       <div class="layout">
-        <ContentComponent />
+        <ContentComponent :searchQuery="searchQuery" />
         <div>
-          <SidebarComponent />
+          <SidebarComponent @search="updateSearchQuery" />
         </div>
       </div>
       <AppFooter />
@@ -24,6 +24,16 @@ export default {
     ContentComponent,
     SidebarComponent,
     AppFooter
+  },
+  data () {
+    return {
+      searchQuery: '' // 搜索查询
+    }
+  },
+  methods: {
+    updateSearchQuery (query) {
+      this.searchQuery = query // 更新搜索查询
+    }
   }
 }
 </script>
