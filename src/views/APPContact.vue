@@ -7,7 +7,6 @@
       <AppFooter />
     </div>
   </template>
-
 <script>
 import HdView from '../components/HdView'
 import ContactMe from '../components/ContactMe.vue'

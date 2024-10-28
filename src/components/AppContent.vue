@@ -8,6 +8,7 @@
       <span>点赞数: {{ article.likes }}</span>
     </div>
     <button @click="likeArticle" class="like-button">点赞</button>
+    <button @click="recommendArticle" class="recommend-button">推荐</button>
   </div>
   <div v-else>
     <p>文章加载中...</p>
@@ -16,28 +17,16 @@
 
 <script>
 export default {
-  name: 'AppContent', // 修正组件名称
+  name: 'AppContent',
   data () {
     return {
-      posts: [], // 存储所有文章
-      article: null // 存储筛选出的文章详情
-    }
-  },
-  computed: {
-    formattedDate () {
-      if (this.article && this.article.date) {
-        const options = { year: 'numeric', month: 'long', day: 'numeric' }
-        return new Date(this.article.date).toLocaleDateString(undefined, options)
-      }
-      return ''
+      posts: [],
+      article: null
     }
   },
   methods: {
     likeArticle () {
-      // 增加点赞数
       this.article.likes += 1
-
-      // 发送更新请求到服务器
       fetch(`http://localhost:3000/updateLikes/${this.article.id}`, {
         method: 'POST',
         headers: {
@@ -46,30 +35,40 @@ export default {
         body: JSON.stringify({ likes: this.article.likes })
       })
         .then(response => {
-          if (!response.ok) {
-            throw new Error('网络响应不是 OK')
-          }
+          if (!response.ok) throw new Error('网络响应不是 OK')
           return response.json()
-        })
-        .then(data => {
-          console.log('点赞数更新成功:', data)
         })
         .catch(err => {
           console.error('更新点赞数失败:', err)
+        })
+    },
+    recommendArticle () {
+      fetch(`http://localhost:3000/recommendArticle/${this.article.id}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      })
+        .then(response => {
+          if (!response.ok) throw new Error('推荐失败')
+          return response.json()
+        })
+        .then(data => {
+          console.log('推荐成功:', data)
+        })
+        .catch(err => {
+          console.error('推荐文章失败:', err)
         })
     }
   },
   mounted () {
     const queryString = window.location.search
     const urlParams = new URLSearchParams(queryString)
-    const articleId = urlParams.get('id') // 获取URL中的文章ID
-
-    // 从服务器获取所有文章
+    const articleId = urlParams.get('id')
     fetch('http://localhost:3000/getPosts')
       .then(response => response.json())
       .then(data => {
-        this.posts = data // 保存获取的文章列表
-        // 根据URL中的文章ID筛选出对应的文章
+        this.posts = data
         this.article = this.posts.find(post => post.id === Number(articleId))
       })
       .catch(err => {
@@ -120,5 +119,19 @@ export default {
 
 .like-button:hover {
   background-color: #fa95f2; /* 悬停效果 */
+}
+.recommend-button {
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 20px 40px;
+  cursor: pointer;
+  font-size: 25px;
+  margin-left: 10px;
+}
+
+.recommend-button:hover {
+  background-color: #45a049;
 }
 </style>

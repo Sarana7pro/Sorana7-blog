@@ -10,7 +10,7 @@
         </div>
         <ul class="nav-links">
             <li><router-link to="/">首页</router-link></li>
-            <li><router-link to="/blog">博客</router-link></li>
+            <li><router-link to="/blog">推荐文章</router-link></li>
             <li><router-link to="/contact">联系我</router-link></li>
             <li><router-link to="/about">关于</router-link></li>
         </ul>

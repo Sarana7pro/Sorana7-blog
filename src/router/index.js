@@ -6,6 +6,7 @@ import AppViews from '@/views/AppViews.vue'
 import AppPublishArticle from '@/views/AppPublishArticle.vue'
 import APPContact from '@/views/APPContact.vue'
 import AppAbout from '@/views/AppAbout.vue'
+import GoodBlog from '@/views/GoodBlog.vue'
 
 Vue.use(VueRouter)
 
@@ -34,6 +35,11 @@ const routes = [
     path: '/about',
     name: 'AppAbout',
     component: AppAbout
+  },
+  {
+    path: '/blog',
+    name: 'GoodBlog',
+    component: GoodBlog
   }
 ]
 

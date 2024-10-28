@@ -134,6 +134,41 @@ app.post('/updateLikes/:id', (req, res) => {
   })
 })
 
+// 推荐文章的接口
+app.post('/recommendArticle/:id', (req, res) => {
+  const articleId = req.params.id
+
+  pool.query('UPDATE posts SET recommended = 1 WHERE id = ?', [articleId], (err, results) => {
+    if (err) {
+      console.error('推荐文章失败:', err)
+      return res.status(500).json({ error: '推荐失败' })
+    }
+
+    if (results.affectedRows > 0) {
+      res.json({ message: '推荐成功' })
+    } else {
+      res.status(404).json({ message: '文章未找到' })
+    }
+  })
+})
+
+// 获取推荐文章的接口
+app.get('/getRecommendedPosts', (req, res) => {
+  pool.query('SELECT * FROM posts WHERE recommended = 1', (err, results) => {
+    if (err) {
+      console.error('获取推荐文章失败:', err)
+      return res.status(500).send('获取推荐文章失败')
+    }
+
+    // 转换每个结果中的图像数据为 Base64 字符串
+    const formattedResults = results.map(post => ({
+      ...post,
+      image: post.image ? `data:image/jpeg;base64,${post.image.toString('base64')}` : null // 确保根据实际类型设置 MIME 类型
+    }))
+
+    res.json(formattedResults)
+  })
+})
 // 启动服务器
 app.listen(3000, () => {
   console.log('恭喜你，服务器启动成功')
