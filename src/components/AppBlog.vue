@@ -12,7 +12,7 @@
           <img :src="post.image" :alt="post.title" />
           <div class="card-content">
             <h3>{{ post.title }}</h3>
-            <h4>{{ post.summary }}</h4>
+            <h4>{{ truncateSummary(post.summary) }}</h4>
             <div class="meta-info">
               <span>{{ new Date(post.date).toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' }) }}</span>
               <span>{{ post.likes }} 赞</span>
@@ -56,6 +56,9 @@ export default {
         .catch(err => {
           console.error('获取推荐文章失败:', err)
         })
+    },
+    truncateSummary (summary) {
+      return summary.length > 30 ? summary.substring(0, 30) + '...' : summary
     }
   },
   mounted () {
@@ -127,5 +130,6 @@ h4 {
   justify-content: space-between;
   font-size: 14px;
   color: #999;
+  margin-top: 220px;
 }
 </style>

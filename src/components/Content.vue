@@ -7,7 +7,7 @@
           <img :src="post.image" :alt="post.title" />
           <div class="card-content">
             <h3>{{ post.title }}</h3>
-            <h4>{{ post.summary }}</h4>
+            <h4>{{ truncateSummary(post.summary) }}</h4>
             <div class="meta-info">
               <span>{{ new Date(post.date).toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' }) }}</span>
               <span>{{ post.likes }} 赞</span>
@@ -73,87 +73,83 @@ export default {
   methods: {
     handlePageChange (page) {
       this.currentPage = page
+    },
+    truncateSummary (summary) {
+      return summary.length > 80 ? summary.substring(0, 80) + '...' : summary
     }
   }
 }
 </script>
 
-  <style scoped>
-  .main-content {
-      padding: 30px;
-      background-color: #f8f9fa;
-      width: 100%;
-      max-width: 1200px;
-      border-radius: 12px;
-      margin: 100px auto;
-      opacity: 95%;
-      min-height: 500px;
-  }
+<style scoped>
+.main-content {
+  padding: 30px;
+  background-color: #f8f9fa;
+  width: 100%;
+  max-width: 1200px;
+  border-radius: 12px;
+  margin: 100px auto;
+  opacity: 95%;
+  min-height: 500px;
+}
 
-  .card-link {
-      text-decoration: none;
-      color: inherit;
-      font-weight: inherit;
-      font-style: inherit;
-  }
+.card-link {
+  text-decoration: none;
+  color: inherit;
+}
 
-  .cards {
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
-  }
+.cards {
+  display: flex;
+  flex-wrap: wrap; /* 允许换行 */
+  gap: 20px; /* 增加间距 */
+}
 
-  .card {
-      display: flex;
-      flex-direction: row;
-      background: white;
-      border: 1px solid #e0e0e0;
-      border-radius: 10px;
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-      padding: 20px;
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-  }
+.card {
+  display: flex;
+  flex-direction: row;
+  background: white;
+  border: 1px solid #e0e0e0;
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
 
-  .card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
-      cursor: url('@/assets/cur/busy.gif'), ;
-  }
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+}
 
-  .card img {
-      width: 50%;
-      height: 300px;
-      border-radius: 8px;
-      object-fit: cover;
-      margin-right: 15px;
-  }
+.card img {
+  width: 50%;
+  height: 300px;
+  border-radius: 8px;
+  object-fit: cover;
+  margin-right: 15px;
+}
 
-  .card-content {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-  }
+.card-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
 
-  .card-content h3 {
-      font-size: 1.5rem;
-      margin: 0 0 10px;
-      text-overflow: ellipsis;
-      overflow: hidden;
-      white-space: nowrap;
-  }
+.card-content h3 {
+  margin: 0 0 10px;
+}
 
-  .meta-info {
-      display: flex;
-      justify-content: space-between;
-      margin-top: 210px;
-      font-size: 14px;
-      color: #999;
-  }
+.meta-info {
+  display: flex;
+  justify-content: space-between;
+  font-size: 14px;
+  color: #999;
+  margin-top: 220px;
+}
 
-  h4 {
-      color: #807f7f;
-      font-size: 16px;
-      margin: 0 0 10px;
-      text-overflow: ellipsis;
-  }
-  </style>
+h4 {
+  color: #807f7f;
+  font-size: 16px;
+  margin: 0 0 10px;
+  text-overflow: ellipsis;
+}
+</style>

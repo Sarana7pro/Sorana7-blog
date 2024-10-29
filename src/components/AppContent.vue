@@ -2,7 +2,13 @@
   <div class="article-content" v-if="article">
     <h1>{{ article.title }}</h1>
     <img :src="article.image" :alt="article.title" />
-    <p>{{ article.content }}</p>
+
+    <div class="content-wrapper">
+      <p class="intro">欢迎阅读这篇文章！</p>
+      <div v-html="formattedContent"></div>
+      <p class="conclusion">感谢您阅读完这篇文章！希望对您有所帮助。</p>
+    </div>
+
     <div class="meta-info">
       <span>发布日期: {{ formattedDate }}</span>
       <span>点赞数: {{ article.likes }}</span>
@@ -22,6 +28,20 @@ export default {
     return {
       posts: [],
       article: null
+    }
+  },
+  computed: {
+    formattedContent () {
+      // 检测代码块并格式化内容
+      const codeBlockPattern = /```([\s\S]*?)```/g
+      const formatted = this.article.content
+        .replace(codeBlockPattern, '<pre><code>$1</code></pre>')
+        .replace(/(\r\n|\n|\r)/g, '<br/>')
+      return formatted
+    },
+    formattedDate () {
+      const date = new Date(this.article.date)
+      return date.toLocaleDateString()
     }
   },
   methods: {
@@ -93,9 +113,19 @@ export default {
 
 .article-content img {
   width: auto;
-  max-width: 1000px;
+  max-width: 600px;
   border-radius: 8px;
   margin: 20px 0;
+}
+
+.content-wrapper {
+  margin: 20px 0;
+  text-align: left; /* 使段落文本左对齐 */
+}
+
+.intro, .conclusion {
+  font-style: italic; /* 添加斜体样式 */
+  color: #555; /* 更改文本颜色 */
 }
 
 .meta-info {
@@ -107,7 +137,7 @@ export default {
   color: #999;
 }
 
-.like-button {
+.like-button, .recommend-button {
   background-color: #f87bd2; /* 按钮背景色 */
   color: white; /* 按钮文字颜色 */
   border: none; /* 去除边框 */
@@ -120,15 +150,10 @@ export default {
 .like-button:hover {
   background-color: #fa95f2; /* 悬停效果 */
 }
+
 .recommend-button {
   background-color: #4CAF50;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  padding: 20px 40px;
-  cursor: pointer;
-  font-size: 25px;
-  margin-left: 10px;
+  margin-left: 10px; /* 添加左边距 */
 }
 
 .recommend-button:hover {

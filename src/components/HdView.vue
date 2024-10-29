@@ -2,7 +2,7 @@
     <nav class="HdView">
         <div class="logo">
             <router-link to="/" class="custom-link">
-                <img src="@/assets/icon/mea2.jpg" class="logo-img">
+                <img src="@/assets/icon/mea.jpg" class="logo-img">
             </router-link>
             <router-link to="/" class="custom-link">
                 <h1>月下の博客</h1>
